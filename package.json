@@ -1,0 +1,11 @@
+{
+  "name": "watermark-on-photos",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Luc-pl/watermark-on-photos.git",
+  "author": "Łukasz Mijała <lukasz.mijala@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "jimp": "0.6.4"
+  }
+}

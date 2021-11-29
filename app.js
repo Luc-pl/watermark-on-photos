@@ -2,7 +2,7 @@ const Jimp = require('jimp');
 const inquirer = require('inquirer');
 const fs = require('fs');
 
-const addTextWatermarkToImage = async function(inputFile, outputFile, text, action) {
+const addTextWatermarkToImage = async function(inputFile, outputFile, text) {
   try {
     const image = await Jimp.read(inputFile);
     const font = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
@@ -33,6 +33,7 @@ const addImageWatermarkToImage = async function(inputFile, outputFile, watermark
       opacitySource: 0.5,
     });
     await image.quality(100).writeAsync(outputFile);
+    console.log('Your file with watermark has been successfully saved!');
   }
   catch {
     console.log('Something went wrong... Try again');
@@ -70,13 +71,8 @@ const startApp = async () => {
     default: false,
   }]);
 
-  // ask about input file and watermark type
+  //ask about watermark type
   const options = await inquirer.prompt([{
-    name: 'inputImage',
-    type: 'input',
-    message: 'What file do you want to mark?',
-    default: 'test.jpg',
-  }, {
     name: 'watermarkType',
     type: 'list',
     choices: ['Text watermark', 'Image watermark'],
@@ -104,7 +100,8 @@ const startApp = async () => {
       default: 'logo.png',
     }])
     options.watermarkImage = image.filename;
-    const watermarkPath = './img' + options.watermarkImage;
+    
+    const watermarkPath = './img/' + options.watermarkImage;
 
     if (fs.existsSync(inputFilePath) && fs.existsSync(watermarkPath)) {
       addImageWatermarkToImage(inputFilePath, './img/' + prepareOutputFilename(inputImage.inputImage), watermarkPath);
